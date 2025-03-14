@@ -1,8 +1,21 @@
+import { ALL_AUTHORS } from "../queries";
+import { useQuery } from "@apollo/client";
+import BirthyearForm from "./BirthyearForm";
+
+
 const Authors = (props) => {
+  const result = useQuery(ALL_AUTHORS)
+  if (result.loading) {
+    return <div>loading...</div>
+  }
+
+  // eslint-disable-next-line react/prop-types
   if (!props.show) {
     return null
   }
-  const authors = []
+
+
+  const authors = result.data.allAuthors
 
   return (
     <div>
@@ -23,6 +36,7 @@ const Authors = (props) => {
           ))}
         </tbody>
       </table>
+      <BirthyearForm authors={authors} />
     </div>
   )
 }
